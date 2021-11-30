@@ -1,7 +1,9 @@
 package com.example.listentopic.service.impl;
 
 import com.example.listentopic.internal.publisher.KafkaPublisher;
+import com.example.listentopic.model.entity.DataStatus;
 import com.example.listentopic.model.entity.Traffic;
+import com.example.listentopic.model.response.DataStatusResponse;
 import com.example.listentopic.model.response.TrafficResponse;
 import com.example.listentopic.model.response.TrafficStorageResponse;
 import com.example.listentopic.repository.DataStatusRepository;
@@ -53,16 +55,22 @@ public class TrafficServiceImpl implements TrafficService {
     }
 
     @Override
-    public List<Traffic> createOrUpdate(List<TrafficResponse> TrafficResponse) {
-        if ( CollectionUtils.isEmpty(TrafficResponse)) {
+    public List<Traffic> createOrUpdate(List<TrafficResponse> trafficResponse) {
+        if ( CollectionUtils.isEmpty(trafficResponse)) {
             logger.info("Not found storage items");
             return null;
         }
-
+//        DataStatusResponse dataStatusResponse = trafficResponse;
         Timestamp timestamp =new Timestamp(System.currentTimeMillis());
-        List<Traffic> trafficList = TrafficResponse.stream().map(item ->{
 
-        }).filter();
+//        List<Traffic> trafficList = trafficResponse.stream().map(item -> {
+//            Traffic entity = new Traffic();
+//
+//            entity.setHighway(item.getHighway());
+//            entity.setName(item.getName());
+//
+//            return  entity;
+//        })
         return null;
     }
 
@@ -77,4 +85,7 @@ public class TrafficServiceImpl implements TrafficService {
         ResponseEntity<TrafficStorageResponse> response = restTemplate.getForEntity(url, TrafficStorageResponse.class);
         return response.getBody();
     }
+
+
+
 }

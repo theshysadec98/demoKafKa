@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TrafficService {
     List<TrafficResponse> fetchTraffic();
-    List<Traffic> createOrUpdate(List<TrafficResponse> TrafficResponse);
+    List<Traffic> createOrUpdate(List<TrafficResponse> trafficResponse);
 
     void sendKafka(List<Traffic> traffic);
 }

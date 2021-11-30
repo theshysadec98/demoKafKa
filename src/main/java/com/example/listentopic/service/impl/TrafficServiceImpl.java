@@ -12,30 +12,34 @@ import com.example.listentopic.repository.TrafficRepository;
 import com.example.listentopic.service.TrafficService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Timestamp;
 import java.util.List;
 
+@Service
 public class TrafficServiceImpl implements TrafficService {
 
     private static final Logger logger = LoggerFactory.getLogger(TrafficServiceImpl.class);
 
+    @Autowired
     private TrafficRepository trafficRepository;
 
     private KafkaPublisher kafkaPublisher;
 
-    @Value("${external.google.bucket-name}")
-    private String bucketName;
-
-    @Value("${external.kafka.topic}")
-    private String kafkaTopic;
-
-    @Value("${external.google.storage.path}")
-    private String storagePath;
+//    @Value("${external.google.bucket-name}")
+//    private String bucketName;
+//
+//    @Value("${external.kafka.topic}")
+//    private String kafkaTopic;
+//
+//    @Value("${external.google.storage.path}")
+//    private String storagePath;
 
     @Value("#{appBean.configMap.get('a.1')}")
     private String value;
@@ -75,13 +79,18 @@ public class TrafficServiceImpl implements TrafficService {
     }
 
     @Override
+    public void saveTraffic(Traffic traffic) {
+        trafficRepository.save(traffic);
+    }
+
+    @Override
     public void sendKafka(List<Traffic> traffic) {
 
     }
 
     private TrafficStorageResponse fetchTrafficStorage() {
         RestTemplate restTemplate = new RestTemplate();
-        String url = storagePath + bucketName + "/o";
+        String url =  "/o";
         ResponseEntity<TrafficStorageResponse> response = restTemplate.getForEntity(url, TrafficStorageResponse.class);
         return response.getBody();
     }
